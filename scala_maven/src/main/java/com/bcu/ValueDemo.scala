@@ -38,7 +38,7 @@ object ValueDemo {
     //flatmap 将处理的数据进行扁平化后在进行映射处理（压扁）
     dataRDD7.collect().foreach(println)
 
-    //将一个分区内的数据转换为数组
+    //将一个分区内的数据转换为数组，打印的是内存地址
     val dataRDD8 = dataRDD.glom()
     dataRDD8.collect().foreach(println)
 
@@ -46,5 +46,14 @@ object ValueDemo {
     //进行奇偶数分组
     val dataRDD10 = dataRDD9.groupBy(_ % 2)
     dataRDD10.collect().foreach(println)
+
+    //过滤 保留2的倍数
+    val dataRDD11 = dataRDD9.filter(_ % 2 == 0)
+    dataRDD11.collect().foreach(println)
+
+    //去重复元素
+    val dataRDD12 = dataRDD9.distinct()
+    dataRDD12.collect().foreach(println)
+
   }
 }
