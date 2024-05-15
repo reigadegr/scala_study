@@ -37,5 +37,14 @@ object ValueDemo {
 
     //flatmap 将处理的数据进行扁平化后在进行映射处理（压扁）
     dataRDD7.collect().foreach(println)
+
+    //将一个分区内的数据转换为数组
+    val dataRDD8 = dataRDD.glom()
+    dataRDD8.collect().foreach(println)
+
+    val dataRDD9 = sc.makeRDD(List(5, 4, 3, 6, 8, 9, 1, 3, 6, 7, 2, 4, 6, 8))
+    //进行奇偶数分组
+    val dataRDD10 = dataRDD9.groupBy(_ % 2)
+    dataRDD10.collect().foreach(println)
   }
 }
