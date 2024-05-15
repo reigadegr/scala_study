@@ -55,5 +55,9 @@ object ValueDemo {
     val dataRDD12 = dataRDD9.distinct()
     dataRDD12.collect().foreach(println)
 
+    //sample
+    val dataRDD13 = dataRDD12.sample(true, 0.5)
+    dataRDD13.collect().foreach(println)
+
   }
 }
