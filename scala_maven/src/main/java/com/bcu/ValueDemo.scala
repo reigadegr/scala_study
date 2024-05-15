@@ -25,9 +25,17 @@ object ValueDemo {
     val dataRDD5 = dataRDD.mapPartitionsWithIndex((index, datas) => {
       datas.map((index, _))
     })
+
+    val dataRDD6 = sc.makeRDD(List(List(1, 2, 3), List(4, 5, 6, 7, 8)), 1)
+    val dataRDD7 = dataRDD6.flatMap(
+      list => list
+    )
     dataRDD2.collect().foreach(println)
     dataRDD3.collect().foreach(println)
     dataRDD4.collect().foreach(println)
     dataRDD5.collect().foreach(println)
+
+    //flatmap 将处理的数据进行扁平化后在进行映射处理（压扁）
+    dataRDD7.collect().foreach(println)
   }
 }
