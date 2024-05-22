@@ -4,9 +4,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 object SparkTest {
   def main(args: Array[String]): Unit = {
-    // 设置Spark配置信息
     val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkTest")
-    // 创建Spark上下文
     val sc = new SparkContext(conf)
 
     val inputPath = "scala_maven/data/input/data.txt"
@@ -23,9 +21,13 @@ object SparkTest {
 
     // 统计每个商品ID的出现次数
     val productCounts = productRDD.map((_, 1)).reduceByKey(_ + _)
+    // 根据出现次数从大到小排序
+    val sortedProductCounts = productCounts.sortBy(-_._2, ascending = false)
 
     // 打印结果
-    productCounts.collect().foreach(println)
+    sortedProductCounts.collect().foreach(println)
+    // 打印结果（没排序的）
+    //    productCounts.collect().foreach(println)
 
     // 关闭Spark上下文
     sc.stop()
