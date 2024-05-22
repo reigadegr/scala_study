@@ -1,5 +1,6 @@
 package com.bcu.csvTest
 
+import com.bcu.csvTest.ProductCount.countProductsByFrequency
 import org.apache.spark.{SparkConf, SparkContext}
 
 object SparkTest {
@@ -11,25 +12,16 @@ object SparkTest {
     // 读取数据
     val lines = sc.textFile(inputPath)
 
-    // 解析数据并提取商品ID
-    val productRDD = lines.map(line => {
-      val fields = line.split(",")
-      if (fields.length > 7) {
-        fields(7).trim
-      }
-    })
-
-    // 统计每个商品ID的出现次数
-    val productCounts = productRDD.map((_, 1)).reduceByKey(_ + _)
-    // 根据出现次数从大到小排序
-    val sortedProductCounts = productCounts.sortBy(-_._2, ascending = false)
-
-    // 打印结果
-    sortedProductCounts.collect().foreach(println)
-    // 打印结果（没排序的）
-    //    productCounts.collect().foreach(println)
-
-    // 关闭Spark上下文
+//    开始函数调用
+    println("开始统计商品类-点击总数")
+    countProductsByFrequency(lines, 6)
+    println("开始统计商品类-下单总数量")
+    countProductsByFrequency(lines, 8)
+    println("开始统计商品类-支付总数")
+    countProductsByFrequency(lines, 10)
+    //    需求2，统计session
+    println("开始统计session的数量")
+    countProductsByFrequency(lines, 2)
     sc.stop()
   }
 }
